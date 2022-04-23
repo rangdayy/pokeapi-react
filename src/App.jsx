@@ -1,10 +1,18 @@
-import { BottomNavigationUI } from "./components/BottomNavigationUI";
+
+import { LanguageProvider } from "./containers/language";
+import LanguageSelector from "./components/languageSelector";
+import { BottomNavigationUI } from "./components/bottomNavigationUI";
 
 function App() {
   return (
-    <div className="App">
-      <BottomNavigationUI />
-    </div>
+    <LanguageProvider>
+      <div className="App">
+        <header className="App-header">
+          <LanguageSelector  />
+        </header>
+        <BottomNavigationUI />
+      </div>
+    </LanguageProvider>
   );
 }
 
