@@ -1,6 +1,12 @@
 {
     "navHome": "Home",
     "navPokedex" : "Pokedex",
+    "detail_btn" :"Details",
     "header" : "PokemonAPI",
-    "descp" : "Gotta catch 'em all! here's a simple app to collect some Pokemons"
+    "descp" : "Gotta catch 'em all! here's a simple app to collect some Pokemons",
+    "det_weight" : "Weight",
+    "det_height" : "Height",
+    "det_moves" : "Moves",
+    "catch" : "Catch!",
+    "catch_phrase": "You have 50% chance to catch this pokemon! Just click the button to catch it. You can give name to the pokemon after a successful catch. Good luck!"
 }

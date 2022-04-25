@@ -1,6 +1,15 @@
 {
     "navHome": "Beranda",
     "navPokedex" : "Pokedex",
+    "detail_btn" :"Lihat",
     "header" : "API Pokemon",
-    "descp" : "Tangkap semuanya! Sebuah aplikasi simple untuk koleksi pokemon"
+    "descp" : "Tangkap semuanya! Sebuah aplikasi simple untuk koleksi pokemon",
+    "det_weight" : "Berat",
+    "det_height" : "Tinggi",
+    "det_moves" : "Kemampuan",
+    "catch" : "Tangkap!",
+    "catch_phrase": "Kamu memiliki kesempatan 50% untuk menangkap pokemon ini! Tekan tombol untuk menangkapnya. Kamu dapat memberikan nama pada pokemon ketika sukses menangkapnya. Semoga berhasil!"
+
+
+
 }

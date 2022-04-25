@@ -4,29 +4,31 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import { client } from "./ApolloClient/client";
 import { ApolloProvider } from "@apollo/client";
 import { ThemeProvider } from '@mui/material';
-// import { theme } from './components/theme';
+import { BrowserRouter } from 'react-router-dom'
 import { createTheme } from '@mui/material';
 import App from './App';
 
 const theme = createTheme({
   palette: {
-      type: 'light',
-      primary: {
-        main: '#42b549',
-      },
-      secondary: {
-        main: '#45794a',
-      },
+    type: 'light',
+    primary: {
+      main: '#42b549',
     },
+    secondary: {
+      main: '#45794a',
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
+      <BrowserRouter>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </StyledEngineProvider>
 );

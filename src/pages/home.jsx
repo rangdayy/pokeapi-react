@@ -6,29 +6,30 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { CircularProgress, Grow } from '@mui/material';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CircularProgress, Container, Grow } from '@mui/material';
+import { Button } from '@mui/material';
 import pokeball from '../images/pokeball.png'
 import { Avatar } from '@mui/material';
 import { LanguageContext } from '../containers/language';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom'
 
 const gqlVariables = {
     limit: 10,
     offset: 1,
 };
 
+
+
 function GetPokemons() {
+    const { dictionary } = useContext(LanguageContext);
     const { loading, error, data } = useQuery(pokeapi.GET_POKEMONS, {
         variables: gqlVariables,
     });
     if (loading) return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <CircularProgress />
-        </Box >
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}><CircularProgress /></Box >
     );
     if (error) return `Error! ${error.message}`;
-
     return (
         <Grid container direction="row" justifyContent="center">
             {data.pokemons.results.map(({ name, url, image, id }) => (
@@ -41,20 +42,14 @@ function GetPokemons() {
                                 alt={name}
                                 loading="lazy"
                             />
+
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Typography component="div" variant="h6">{name}</Typography>
-                                    {/* <Typography variant="subtitle1" color="text.secondary" component="div"> Mac Miller</Typography> */}
+                                    <Typography variant="subtitle1">{name}</Typography>
                                 </CardContent>
-                                <Box sx={{ display: 'flex', justifyContent: 'end', pl: 1, pb: 1 }}>
-                                    <Button size="small" color="primary">
-                                        Owned
-                                    </Button>
-                                    <Button size="small" color="secondary">
-                                        Total
-                                    </Button>
+                                <Box sx={{ display: 'flex', pl: 1, pb: 2 }}>
+                                    <Button component={Link} to={"/"+name} variant="outlined" size="small">{dictionary.detail_btn}</Button>
                                 </Box>
-
                             </Box>
                         </Card>
                     </Grow>
@@ -69,15 +64,17 @@ export const Home = () => {
     const { dictionary } = useContext(LanguageContext);
     return (
         <>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Avatar src={pokeball} sx={{ width: 100, height: 100 }} />
-                <Typography variant="h4" component="div" gutterBottom>
-                    {dictionary.header}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                    {dictionary.descp}
-                </Typography>
-            </Box >
+            <Container>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Avatar src={pokeball} sx={{ width: 100, height: 100 }} />
+                    <Typography variant="h4">
+                        {dictionary.header}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                        {dictionary.descp}
+                    </Typography>
+                </Box >
+            </Container>
             <GetPokemons />
         </>
     )
