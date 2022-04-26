@@ -8,7 +8,22 @@
     "det_height" : "Tinggi",
     "det_moves" : "Kemampuan",
     "catch" : "Tangkap!",
-    "catch_phrase": "Kamu memiliki kesempatan 50% untuk menangkap pokemon ini! Tekan tombol untuk menangkapnya. Kamu dapat memberikan nama pada pokemon ketika sukses menangkapnya. Semoga berhasil!"
+    "catch_phrase": "Kamu memiliki kesempatan 50% untuk menangkap pokemon ini! Tekan tombol untuk menangkapnya. Kamu dapat memberikan nama pada pokemon ketika sukses menangkapnya. Semoga berhasil!",
+    "catch_success": "Pokemon ditangkap!",
+    "save": "Simpan",
+    "name": "Nama",
+    "my_pokedex": "Pokedex saya",
+    "release": "Lepaskan",
+    "error_name": "Nama harus unik dan tidak boleh kosong!",
+    "failed_catch": "Gagal menangkap pokemon!",
+    "success_catch" : "Pokemon telah ditambahkan ke Pokedex!",
+    "owned" : "Dimiliki",
+    "pokedex_empty" : "Pokedex kosong",
+    "pokedex_empty_descp" : "Kamu belum memiliki Pokemon. Perjalanan kamu dimulai dari sekarang! setiap Pokemon yang ditangkap akan terdaftar disini"
+
+
+
+
 
 
 

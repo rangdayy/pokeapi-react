@@ -8,5 +8,17 @@
     "det_height" : "Height",
     "det_moves" : "Moves",
     "catch" : "Catch!",
-    "catch_phrase": "You have 50% chance to catch this pokemon! Just click the button to catch it. You can give name to the pokemon after a successful catch. Good luck!"
+    "catch_phrase": "You have 50% chance to catch this pokemon! Just click the button to catch it. You can give name to the pokemon after a successful catch. Good luck!",
+    "catch_success": "You caught a pokemon!",
+    "save": "Save",
+    "name": "Name",
+    "my_pokedex": "My Pokedex",
+    "release": "Release",
+    "error_name": "Name must be unique and not empty!",
+    "failed_catch": "Failed to catch the pokemon!",
+    "success_catch" : "Pokemon has been added to the Pokedex!",
+    "owned" : "Owned",
+    "pokedex_empty" : "Pokedex empty",
+    "pokedex_empty_descp" : "You don't have any Pokemon yet. Your journey starts from here! Each Pokemon that caught will be registered here"
+
 }

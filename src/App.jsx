@@ -29,7 +29,7 @@ function App() {
             </Routes>
           </div>
           <div className="footer">
-            <Box sx={{marginTop:10, marginBottom:10}}></Box>
+            <Box sx={{ marginTop: 10, marginBottom: 10 }}></Box>
           </div>
           <div className="nav">
             <BottomNavigation

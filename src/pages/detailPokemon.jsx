@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { ApolloProvider, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { CircularProgress, Grow } from '@mui/material';
 import * as pokeapi from "../ApolloClient/client";
 import Box from '@mui/material/Box';
@@ -24,7 +24,14 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { useContext } from 'react';
 import { LanguageContext } from '../containers/language';
-import { Divider } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import CatchingPokemon from '@mui/icons-material/CatchingPokemon';
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
 
 function GetDetail(pokemon) {
   const { loading, error, data } = useQuery(pokeapi.GET_DETAIL, {
@@ -41,59 +48,161 @@ function GetDetail(pokemon) {
 
 function RenderDetail(props) {
   const { dictionary } = useContext(LanguageContext);
+  const [open, setOpen] = React.useState(false);
+  const [fail, setFail] = React.useState(false);
+  const [pokemons, setPokemons] = React.useState([]);
+  const [newpokemon, setNewPokemon] = React.useState('');
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setSuccess(false)
+    if (Math.random() > 0.5) {
+      setOpen(true);
+      setFail(false)
+    } else {
+      setFail(true)
+    }
+
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let check_id = pokemons.filter((pokemon) => pokemon.nickname === newpokemon)
+    if (newpokemon && check_id.length === 0) {
+      setError(false);
+      let newPokemon = {
+        nickname: newpokemon,
+        pokemon: props.pokemon,
+        img: props.data.pokemon.sprites.front_default
+      };
+      setPokemons([newPokemon, ...pokemons]);
+      setSuccess(true);
+      handleClose()
+    } else {
+      setError(true);
+    }
+    setNewPokemon('');
+  };
+
+  React.useEffect(() => {
+    const pokemons = JSON.parse(localStorage.getItem('pokemons'));
+    if (pokemons) {
+      setPokemons(pokemons);
+    }
+  }, []);
+  React.useEffect(() => {
+    localStorage.setItem('pokemons', JSON.stringify(pokemons));
+  }, [pokemons]);
   return (
-    <Grow in>
-      <Card>
-        <CardActionArea>
-          <Box sx={{ display: 'flex' }} justifyContent="center">
-            <img
-              src={`${props.data.pokemon.sprites.front_default}?w=250&h=250&fit=crop&auto=format`}
-              srcSet={`${props.data.pokemon.sprites.front_default}?w=250&h=250&fit=crop&auto=format&dpr=2 1x`}
-              alt={props.pokemon}
-              loading="lazy"
-            />
-          </Box>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {props.pokemon}
-            </Typography>
-            <Stack direction="row" spacing={1}>
-              {props.data.pokemon.types.map(({ id, type }) => (
-                <Chip key={type.name} label={type.name} variant="outlined" />
-              ))}
+    <>
+      <Grow in>
+        <Card>
+          <CardActionArea>
+            <Box sx={{ width: '100%' }}>
+              <Collapse in={fail}>
+                <Alert severity="error" onClick={() => {
+                  setFail(false);
+                }}>
+                  {dictionary.failed_catch}
+                </Alert>
+              </Collapse>
+              <Collapse in={success}>
+                <Alert severity="success" onClick={() => {
+                  setSuccess(false);
+                }}>
+                  {dictionary.success_catch}
+                </Alert>
+              </Collapse>
+            </Box>
+            <Box sx={{ display: 'flex' }} justifyContent="center">
+              <img
+                src={`${props.data.pokemon.sprites.front_default}?w=250&h=250&fit=crop&auto=format`}
+                srcSet={`${props.data.pokemon.sprites.front_default}?w=250&h=250&fit=crop&auto=format&dpr=2 1x`}
+                alt={props.pokemon}
+                loading="lazy"
+              />
+            </Box>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {props.pokemon}
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                {props.data.pokemon.types.map(({ id, type }) => (
+                  <Chip key={type.name} label={type.name} variant="outlined" />
+                ))}
+              </Stack>
+              <List sx={{ width: '100%' }}>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <HeightIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={dictionary.det_height} secondary={props.data.pokemon.height} />
+                </ListItem>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FitnessCenterIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={dictionary.det_weight} secondary={props.data.pokemon.weight} />
+                </ListItem>
+              </List>
+              <Typography variant="subtitle2" color="text.secondary">
+                {dictionary.catch_phrase}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Box sx={{ display: 'flex', pl: 1, pb: 2 }}>
+              <Button size="small" color="primary" variant="outlined" onClick={handleClickOpen}>
+                {dictionary.catch}
+              </Button>
+            </Box>
+          </CardActions>
+        </Card>
+      </Grow >
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <form onSubmit={handleSubmit} >
+          <DialogTitle id="alert-dialog-title">
+            <Box sx={{ display: "flex" }} justifyContent="center">
+              <CatchingPokemon color="primary" />
+            </Box>
+          </DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} justifyContent="center">
+              <Typography variant='subtitle2'>{dictionary.catch_success}</Typography>
+              <TextField
+                fullWidth
+                id="pokemon_name"
+                label={dictionary.name}
+                variant="standard"
+                error={Boolean(error)}
+                helperText={dictionary.error_name}
+                onChange={(e) => setNewPokemon(e.target.value)} />
             </Stack>
-            <List sx={{ width: '100%' }}>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <HeightIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={dictionary.det_height} secondary={props.data.pokemon.height} />
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FitnessCenterIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={dictionary.det_weight} secondary={props.data.pokemon.weight} />
-              </ListItem>
-            </List>
-            <Typography variant="subtitle2" color="text.secondary">
-             {dictionary.catch_phrase}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Box sx={{ display: 'flex', pl: 1, pb: 2 }}>
-            <Button size="small" color="primary" variant="outlined">
-              {dictionary.catch}
+
+          </DialogContent>
+          <DialogActions>
+            <Button size="small" type="submit" variant="contained" autoFocus>
+              {dictionary.save}
             </Button>
-          </Box>
-        </CardActions>
-      </Card>
-    </Grow >
+          </DialogActions>
+        </form>
+      </Dialog>
+
+    </>
   )
 }
 
@@ -114,7 +223,7 @@ function RenderMoves(props) {
             {props.data.pokemon.moves.map(({ id, move }) => (
               <ListItemButton key={move.name} >
                 <Typography variant="subtitle2" color="text.secondary">
-                {move.name}
+                  {move.name}
                 </Typography>
 
               </ListItemButton>
@@ -128,9 +237,8 @@ function RenderMoves(props) {
 }
 
 export const DetailPokemon = () => {
-  let { pokemon } = useParams();
+  let { pokemon } = useParams()
   let data = GetDetail(pokemon)
-  // console.log(data)
   if (data.pokemon) {
     return (
       <>
